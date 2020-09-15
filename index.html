@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+
+<head>
+  <title>ONLYOFFICE Api Documentation</title>
+  <script type="text/javascript" src="config.js"></script>
+</head>
+
+<body style="height: 100%; margin: 0;">
+  <button onclick="window.viewModeOpen()">view mode</button>
+  <button onclick="window.editModeOpen()">edit mode</button>
+  <div id="placeholder"></div>
+</body>
+
+</html>
+
+
+<script type="text/javascript">
+  var script = document.createElement('script');
+  script.src = config.documentserver + "/web-apps/apps/api/documents/api.js";
+  script.type = "text/javascript";
+  document.head.appendChild(script);
+
+  script.onload = function () {
+    window.viewModeOpen = function () {
+      if (window.docEditor) {
+        window.docEditor.destroyEditor();
+      }
+      window.docEditor = new DocsAPI.DocEditor("placeholder",
+        {
+          "document": {
+            "fileType": "docx",
+            "title": "Example Document Title.docx",
+            "url": config.callbackUrl + '/' + config.filename,
+            "permissions": {
+              "comment": true,
+              "edit": true
+            }
+          },
+          "documentType": "text",
+          "editorConfig": {
+            "callbackUrl": config.callbackUrl + '/callback',
+            "mode": "view"
+          },
+          "permissions": { "download": false, comment: false, edit: false, print: false },
+          "height": "100%",
+          "width": "100%"
+        });
+    }
+
+    window.editModeOpen = function () {
+      if (window.docEditor) {
+        window.docEditor.destroyEditor();
+      }
+      window.docEditor = new DocsAPI.DocEditor("placeholder",
+        {
+          "document": {
+            "fileType": "docx",
+            "title": "Example Document Title.docx",
+            "url": config.callbackUrl + '/' + config.filename,
+            "permissions": {
+              "comment": true,
+              "edit": true
+            }
+          },
+          "documentType": "text",
+          "editorConfig": {
+            "callbackUrl": config.callbackUrl + '/callback',
+            "mode": "edit"
+          },
+          "permissions": { "download": false, comment: true, edit: true, print: false },
+          "height": "100%",
+          "width": "100%"
+        });
+    }
+  }
+
+  console.log(config.documentserver + '/' + config.filename)
+
+
+
+</script>
